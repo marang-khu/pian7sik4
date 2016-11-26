@@ -31,7 +31,7 @@ class Command(BaseCommand):
         資料目錄 = join(settings.BASE_DIR, 'data')
 
         匯入數量 = 0
-        for 檔名 in ['a001-2', 'a002-2', 'a003-2', 'a004-2', ]:
+        for 檔名 in ['a001-2', 'a002-2', 'a003-2', 'a004-2', 'a005', 'a006', 'b007']:
             with open(join(資料目錄, 檔名 + '.TextGrid')) as fp:
                 grid = TextGrid(fp.read())
                 for tier in grid:
