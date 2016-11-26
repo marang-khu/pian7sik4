@@ -21,9 +21,9 @@ class Command(BaseCommand):
             '來源': 來源表.objects.get_or_create(名='Pigu')[0].編號(),
             '版權': 版權表.objects.get_or_create(版權='會使公開')[0].pk,
             '種類': '語句',
-            '語言腔口': '官話',
-            '著作所在地': '北京',
-            '著作年': '2015',
+            '語言腔口': '閩南語',
+            '著作所在地': '臺北',
+            '著作年': '2016',
         }
         資料目錄 = join(settings.BASE_DIR, 'data')
 
