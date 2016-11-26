@@ -1,4 +1,7 @@
+import http.client
+import json
 from os.path import join
+from urllib.parse import quote
 
 from django.conf import settings
 from django.core.management import call_command
@@ -36,7 +39,7 @@ class Command(BaseCommand):
                     for 開始時間, 結束時間, 內容 in (tier.simple_transcript):
                         if 內容.strip() not in ['sounding', 'silent']:
                             json資料.append({
-                                '內容': 內容,
+                                '內容': self.揣分詞(內容),
                                 '語者': '無註明',
                                 '開始時間': 開始時間,
                                 '結束時間': 結束時間,
@@ -54,3 +57,18 @@ class Command(BaseCommand):
                         print('匯入第{}筆：'.format(匯入數量))
 
         call_command('顯示資料數量')
+
+    def 揣分詞(self, 音標):
+        conn = http.client.HTTPConnection("140.109.16.144")
+        conn.request(
+            "GET",
+            "/%E6%A8%99%E6%BC%A2%E5%AD%97%E9%9F%B3%E6%A8%99?%E6%9F%A5%E8%A9%A2%E8%85%94%E5%8F%A3=%E9%96%A9%E5%8D%97%E8%AA%9E&%E6%9F%A5%E8%A9%A2%E8%AA%9E%E5%8F%A5=" +
+            quote(音標)
+        )
+        r1 = conn.getresponse()
+        if r1.status != 200:
+            print(r1.status, r1.reason)
+            print(音標)
+            raise RuntimeError()
+        data1 = r1.read()  # This will return entire content.
+        return json.loads(data1.decode('utf-8'))['分詞']
