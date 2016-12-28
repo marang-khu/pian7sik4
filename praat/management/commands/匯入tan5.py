@@ -12,6 +12,7 @@ from textgrid import TextGrid
 from 臺灣言語資料庫.資料模型 import 來源表
 from 臺灣言語資料庫.資料模型 import 影音表
 from 臺灣言語資料庫.資料模型 import 版權表
+from 臺灣言語工具.解析整理.拆文分析器 import 拆文分析器
 
 
 class Command(BaseCommand):
@@ -38,8 +39,12 @@ class Command(BaseCommand):
                     json資料 = []
                     for 開始時間, 結束時間, 內容 in (tier.simple_transcript):
                         if 內容.strip() not in ['sounding', 'silent']:
+                            句物件 = 拆文分析器.分詞句物件(self.揣分詞(內容))
+                            分詞陣列 = []
+                            for 字物件 in 句物件.篩出字物件():
+                                分詞陣列.append(字物件.看分詞())
                             json資料.append({
-                                '內容': self.揣分詞(內容),
+                                '內容': ' '.join(分詞陣列),
                                 '語者': '無註明',
                                 '開始時間': 開始時間,
                                 '結束時間': 結束時間,
