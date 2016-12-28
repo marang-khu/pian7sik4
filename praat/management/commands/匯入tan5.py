@@ -39,7 +39,7 @@ class Command(BaseCommand):
                     json資料 = []
                     for 開始時間, 結束時間, 內容 in (tier.simple_transcript):
                         if 內容.strip() not in ['sounding', 'silent']:
-                            句物件 = 拆文分析器.分詞句物件(self.揣分詞(內容))
+                            句物件 = 拆文分析器.分詞句物件(self.揣分詞(內容.replace('0', '')))
                             分詞陣列 = []
                             for 字物件 in 句物件.篩出字物件():
                                 分詞陣列.append(字物件.看分詞())
