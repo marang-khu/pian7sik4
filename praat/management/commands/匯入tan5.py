@@ -42,6 +42,7 @@ class Command(BaseCommand):
                             句物件 = 拆文分析器.分詞句物件(self.揣分詞(內容.replace('0', '')))
                             分詞陣列 = []
                             for 字物件 in 句物件.篩出字物件():
+                                字物件.型 = 字物件.音
                                 分詞陣列.append(字物件.看分詞())
                             json資料.append({
                                 '內容': ' '.join(分詞陣列),
